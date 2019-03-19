@@ -1,0 +1,46 @@
+{
+  "name": "wp_starter_plugin",
+  "version": "1.0.0",
+  "description": "A WordPress starter plugin",
+  "main": "gulpfile.babel.js",
+  "dependencies": {
+    "autoprefixer": "^9.5.0",
+    "babel-loader": "^8.0.5",
+    "browser-sync": "^2.26.3",
+    "del": "^4.0.0",
+    "gulp-clean-css": "^4.0.0",
+    "gulp": "^4.0.0",
+    "gulp-imagemin": "^5.0.3",
+    "gulp-rename": "^1.4.0",
+    "gulp-if": "^2.0.2",
+    "gulp-postcss": "^8.0.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-sass": "^4.0.2",
+    "gulp-wp-pot": "^2.3.4",
+    "gulp-zip": "^4.2.0",
+    "vinyl-named": "^1.1.0",
+    "webpack-stream": "^5.2.1",
+    "yargs": "^13.2.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp",
+    "build": "gulp build --prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daprela/wp-starter-plugin.git"
+  },
+  "author": "Giulio Daprela",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/daprela/wp-starter-plugin/issues"
+  },
+  "homepage": "https://github.com/daprela/wp-starter-plugin#readme"
+}

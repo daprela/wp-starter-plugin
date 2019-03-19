@@ -1,0 +1,43 @@
+{
+    "name" 			: "wp-starter-plugin",
+    "description" 	: "A starter WordPress plugin.",
+    "type"          : "project",
+    "keywords" 		: ["wordpress", "wp", "plugin"],
+    "homepage" 		: "https://daprela.com",
+    "license" 		: "GPL-2.0+",
+    "authors": [
+        {
+            "name" 	: "Giulio Daprela",
+            "email" : "giulio.daprela@gmail.com"
+        }
+    ],
+	"autoload-dev": {
+		"psr-4": {
+			"Daprela\\Tests\\Unit\\": "tests/phpunit/unit/",
+			"Daprela\\Tests\\Integration\\": "tests/phpunit/integration/"
+		}
+	},
+    "require": {
+        "php" : ">=7.0.0"
+    },
+    "require-dev": {
+		"kint-php/kint" : "~2.2",
+		"filp/whoops"   : "~2.3",
+		"phpunit/phpunit": "~5.7.9",
+        "brain/monkey" : "^2.2",
+		"mikey179/vfsStream": "^1.6"
+	},
+	"extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+	},
+	"config": {
+        "vendor-dir": "vendor"
+    },
+	"minimum-stability": "dev",
+	"scripts": {
+		"test-unit": "\"vendor/bin/phpunit\" --testsuite unit --colors=always",
+		"test-integration": "\"vendor/bin/phpunit\" --testsuite integration --colors=always --configuration tests/phpunit/integration/phpunit.xml.dist"
+	}
+}
