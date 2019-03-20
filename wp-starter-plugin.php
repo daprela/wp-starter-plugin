@@ -51,11 +51,13 @@ function setup_constants() {
 		require_once ABSPATH . 'wp-includes/functions.php';
 	}
 
+	/** @var array $default_headers list of headers that we want to get in the format array('HeaderKey => 'Header Name')*/
 	$default_headers = [
 		'TextDomain' => 'Text Domain',
 		'Version'    => 'Version',
 	];
 
+	/** @var array $plugin_data the headers extracted */
 	$plugin_data = get_file_data( __FILE__, $default_headers );
 
 	define( __NAMESPACE__ . '\PLUGIN_VERSION', $plugin_data['Version'] );
@@ -109,11 +111,13 @@ require PLUGIN_DIR_PATH . 'includes/class-wp-starter-plugin.php';
  *
  * @param string $asset_file complete path to the asset file (not to confuse with the URL)
  *
- * @return bool|int The asset timestamp or the plugin version
+ * @return string|int The asset timestamp or the plugin version
  */
 function get_asset_version( $asset_file ) {
 
 	if ( plugin_is_in_debug_mode() ) {
+
+		/** @var int $version the timestamp of the asset file */
 		$version = filemtime( $asset_file );
 
 		// detect the case where a Windows server returns the wrong encoding and convert

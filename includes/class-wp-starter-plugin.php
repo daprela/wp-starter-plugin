@@ -37,8 +37,8 @@ class Dapre_Wpsp {
 
 		$this->load_dependencies();
 		$this->set_locale();
-		$this->define_hooks();
-
+		$this->define_admin_hooks();
+		$this->define_public_hooks();
 	}
 
 	/**
@@ -67,19 +67,23 @@ class Dapre_Wpsp {
 	 */
 	private function autoload( $class ) {
 
+		/** @var string $class_path the path where the class file is found */
 		$class_path = strtolower( str_replace( "_", "-", $class ) );
 
+		/** @var array $paths */
 		$paths = explode( '\\', $class_path );
 
 		if ( $paths[0] != \dapre_wpsp\PLUGIN_NAME ) {
 			return;
 		}
 
+		/** @var string $class_file */
 		$class_file = \dapre_wpsp\PLUGIN_DIR_PATH . "$paths[1]/class-{$paths[2]}.php";
 
 		if ( file_exists( $class_file ) ) {
 			include_once( $class_file );
 		}  else {
+			/** @var string $abstract_class_file */
 			$abstract_class_file = \dapre_wpsp\PLUGIN_DIR_PATH . "$paths[1]/abstract-class-{$paths[2]}.php";
 			if ( file_exists($abstract_class_file) ) {
 				include_once($abstract_class_file);
@@ -100,6 +104,7 @@ class Dapre_Wpsp {
 	 */
 	private function set_locale() {
 
+		/** @var object $plugin_i18n */
 		$plugin_i18n = new i18n();
 
 		add_action( 'plugins_loaded', [ $plugin_i18n, 'load_plugin_textdomain' ] );
@@ -114,11 +119,31 @@ class Dapre_Wpsp {
 	 *
 	 * @return void
 	 */
-	private function define_hooks() {
+	private function define_admin_hooks() {
 
-		$start_here = new Start_Here();
+		/** @var object $admin */
+		$admin = new Admin();
 
-		add_action( 'admin_enqueue_scripts', [ $start_here, 'enqueue_styles' ] );
-		add_action( 'admin_enqueue_scripts', [ $start_here, 'enqueue_scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $admin, 'enqueue_styles' ] );
+		add_action( 'admin_enqueue_scripts', [ $admin, 'enqueue_scripts' ] );
+	}
+
+	/**
+	 * Register all of the hooks related to the public-facing functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 *
+	 * @return void
+	 */
+	private function define_public_hooks() {
+
+		/** @var object $plugin_public */
+		$plugin_public = new Plugin_Public();
+
+		add_action( 'wp_enqueue_scripts', [$plugin_public, 'enqueue_styles'] );
+		add_action( 'wp_enqueue_scripts', [$plugin_public, 'enqueue_scripts'] );
+
 	}
 }

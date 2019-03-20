@@ -124,6 +124,9 @@ export const compress = () => {
 		"!gulpfile.babel.js",
 		"!package.json",
 		"!package-lock.json",
+		"!composer.json",
+		"!composer.lock",
+		"!phpunit.xml.dist",
 	])
 	.pipe(zip(`${info.name}.zip`))
 	.pipe(dest('bundled'));
