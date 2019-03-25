@@ -67,7 +67,7 @@ export const copy = () => {
 };
 
 export const clean = () => {
-	return del(['src/assets']);
+	return del(['assets/css/*.min.css', 'assets/js/*.min.js', 'assets/images/*.{jpg,jpeg,png,svg,gif}']);
 };
 
 /* Accepts an array of files as input and then rename the output by adding the min suffix */
