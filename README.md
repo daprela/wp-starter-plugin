@@ -14,20 +14,28 @@ Features:
      * Minification.
      * Image compression.
      * Transpile Javascript ES6 to ES5.
-     * plugin packaging.
+     * Plugin packaging.
 
 ## Instructions to use Gulp
 
 From the terminal, give the following commands
-* **npm run start**: launches Gulp in development mode and watches files for changes. The following tasks are performed 
+* `npm run start`: launches Gulp in development mode and watches files for changes. The following tasks are performed 
     * Sass is compiled to CSS but not minified.
     * JavaScript is transpiled from ES6 to ES5 but not minified.
     * Images are compressed. Original non compressed images must be under *src/images/*
     * A .pot file is generated and saved under the folder *languages*.
     * Opens the browser on a new URL and refreshes it automatically every time that a script changes.
-* **npm run build**: launches Gulp in production mode. The following tasks are performed 
+* `npm run build`: launches Gulp in production mode. The following tasks are performed 
     * Sass is compiled to CSS and minified.
     * JavaScript is transpiled from ES6 to ES5 and minified.
     * Images are compressed. Original non compressed images must be under *src/images/*
     * A .pot file is generated and saved under the folder *languages*.
     * Creates the zip file of the plugin and saves it under the folder *bundled*
+
+### Using single gulp commands
+* `gulp styles`: compile the Sass file and generates the CSS files non minfied.
+    * `gulp styles --prod`: compile the Sass file and generates the CSS files minfied.
+* `gulp images`: copies the images from src/images to assets/images without compressing them.
+    * `gulp images --prod` compresses the images in src/images and copies them to assets/images.
+* `gulp clean`: deletes the images and the `.min.*` files. This operation ensures that in case we have deleted a no longer needed asset, it doesn't remain forgotten in our distribution folders.
+* `gulp copy` : copies any files under src but that are not under src/{images,js,scss} to the assets folder.
