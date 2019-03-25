@@ -33,8 +33,11 @@ From the terminal, give the following commands
     * Creates the zip file of the plugin and saves it under the folder *bundled*
 
 ### Using single gulp commands
-* `gulp styles`: compile the Sass file and generates the CSS files non minfied.
-    * `gulp styles --prod`: compile the Sass file and generates the CSS files minfied.
+The following commands are already part of the bundled instructions `npm run start` and `npm run build`. Here, they can be run alone in case of need.
+* `gulp styles`: compiles the Sass files and generates the CSS files non minfied.
+    * `gulp styles --prod`: compiles the Sass files and generates the CSS files minfied.
+* `gulp scripts`: transpiles the JavaScript files ES6->ES5 and generates the JS files non minfied.
+    * `gulp scripts --prod`: transpiles the JavaScript files ES6->ES5 and generates the JS files minfied.
 * `gulp images`: copies the images from src/images to assets/images without compressing them.
     * `gulp images --prod` compresses the images in src/images and copies them to assets/images.
 * `gulp clean`: deletes the images and the `.min.*` files. This operation ensures that in case we have deleted a no longer needed asset, it doesn't remain forgotten in our distribution folders.
