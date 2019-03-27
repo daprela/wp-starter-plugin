@@ -127,6 +127,8 @@ export const compress = () => {
 		"!composer.json",
 		"!composer.lock",
 		"!phpunit.xml.dist",
+		"!wp-tests-config.php",
+		"!tests{,/**}",
 	])
 	.pipe(zip(`${info.name}.zip`))
 	.pipe(dest('bundled'));
