@@ -31,16 +31,19 @@ import browserSync from "browser-sync";
 import zip from "gulp-zip";
 import info from "./package.json";
 
+import replace from "gulp-replace";
+import vinyl from 'vinyl';
+
 export const styles_admin = () => {
 	return src('assets/css/admin-styles.scss')
-		.pipe(named())
-		.pipe(gulpif(!PRODUCTION, sourcemaps.init()))
-		.pipe(sass().on('error', sass.logError))
-		.pipe(gulpif(PRODUCTION, postcss([autoprefixer])))
-		.pipe(gulpif(PRODUCTION, cleanCss({compatibility: 'ie8'})))
-		.pipe(gulpif(!PRODUCTION, sourcemaps.write()))
-		.pipe(rename('admin-styles.min.css'))
-		.pipe(dest('assets/css'));
+	.pipe(named())
+	.pipe(gulpif(!PRODUCTION, sourcemaps.init()))
+	.pipe(sass().on('error', sass.logError))
+	.pipe(gulpif(PRODUCTION, postcss([autoprefixer])))
+	.pipe(gulpif(PRODUCTION, cleanCss({compatibility: 'ie8'})))
+	.pipe(gulpif(!PRODUCTION, sourcemaps.write()))
+	.pipe(rename('admin-styles.min.css'))
+	.pipe(dest('assets/css'));
 };
 
 export const styles_frontend = () => {
@@ -143,8 +146,67 @@ export const watchForChanges = () => {
 	watch("**/*.php", reload);
 };
 
+export const updateStrings = () => {
+	return src([
+		"./**",
+		"!node_modules{,/**}",
+		"!bundled{,/**}",
+		"!src{,/**}",
+		"!vendor{,/**}",
+		"!.babelrc",
+		"!.gitignore",
+		"!gulpfile.babel.js",
+		"!package.json",
+		"!package-lock.json",
+		"!composer.json",
+		"!composer.lock",
+		"!phpunit.xml.dist",
+		"!wp-tests-config.php",
+		"!tests{,/**}",
+		"!*.zip",
+	])
+	.pipe(replace("dapre_wpsp", info.rootNamespace))
+	.pipe(replace("giulio.daprela@gmail.com", info.email))
+	.pipe(replace("https://giuliodaprela.com", info.link))
+	.pipe(replace("Giulio Daprela", info.author))
+	.pipe(replace("WordPress Starter Plugin", info.pluginName))
+	.pipe(replace("A WordPress starter plugin.", info.description))
+	.pipe(replace("dapre-wpsp", info.textDomain))
+	.pipe(dest("."))
+};
+export const renameMain = () => {
+	return src(	"wp-starter-plugin.php")
+	.pipe(named())
+	.pipe(rename(`${info.name}.php`))
+	.pipe(dest("."))
+};
+export const renameTemplate = () => {
+	return src(	"templates/wp-starter-plugin-template.php")
+	.pipe(rename(`${info.name}-template.php`))
+	.pipe(dest("templates/"))
+};
+export const renamePartial = () => {
+	return src(	"templates/partials/wp-starter-plugin-partial.php")
+	.pipe(rename(`${info.name}-partial.php`))
+	.pipe(dest("templates/partials/"))
+};
+export const renameMinJS = () => {
+	return src(	"assets/js/wp-starter-plugin.min.js")
+	.pipe(rename(`${info.name}.min.js`))
+	.pipe(dest("includes/"))
+};
+export const renameJS = () => {
+	return src(	"assets/js/wp-starter-plugin.js")
+	.pipe(rename(`${info.name}.js`))
+	.pipe(dest("assets/js/"))
+};
+export const  cleanInit = () => {
+	return del(["wp-starter-plugin.php", "templates/wp-starter-plugin-template.php", "templates/partials/wp-starter-plugin-partial.php", "includes/class-loader.php", "assets/js/wp-starter-plugin.js"])
+}
+
 /* Run tasks in series to clean the Dev folder and start watching the files */
 export const dev = series(clean, parallel(styles_admin, styles_frontend, images, copy, scripts), serve, watchForChanges);
 export const build = series(clean, parallel(styles_admin, styles_frontend, images, copy, scripts), compress);
+export const initPlugin = series(updateStrings, renameMain, renameTemplate, renamePartial, renameMinJS, renameJS, cleanInit);
 
 export default dev;
