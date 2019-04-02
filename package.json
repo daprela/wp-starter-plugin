@@ -1,7 +1,14 @@
 {
-  "name": "wp_starter_plugin",
+  "name": "wp-starter-plugin",
   "version": "1.0.0",
-  "description": "A WordPress starter plugin",
+  "pluginName": "WordPress Starter Plugin",
+  "description": "A WordPress starter plugin.",
+  "rootNamespace": "dapre_wpsp",
+  "author": "Giulio Daprela",
+  "email": "giulio.daprela@gmail.com",
+  "link": "https://giuliodaprela.com",
+  "license": "GPL-2.0",
+  "textDomain": "dapre-wpsp",
   "main": "gulpfile.babel.js",
   "dependencies": {
     "autoprefixer": "^9.5.0",
@@ -37,8 +44,6 @@
     "type": "git",
     "url": "git+https://github.com/daprela/wp-starter-plugin.git"
   },
-  "author": "Giulio Daprela",
-  "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/daprela/wp-starter-plugin/issues"
   },

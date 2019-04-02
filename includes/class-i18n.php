@@ -2,18 +2,13 @@
 
 namespace dapre_wpsp\includes;
 
-/**
- * Define the internationalization functionality
- *
- * Loads and defines the internationalization files for this plugin
- * so that it is ready for translation.
- *
- * @link       https://giuliodaprela.com
- * @since      1.0.0
- *
- * @package    dapre_wpsp
- * @subpackage dapre_wpsp/includes
- */
+use const dapre_wpsp\PLUGIN_DIR_PATH;
+use const dapre_wpsp\PLUGIN_NAME;
+
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	die;
+}
 
 /**
  * Define the internationalization functionality.
@@ -38,9 +33,9 @@ class i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			\dapre_wpsp\PLUGIN_NAME,
+			PLUGIN_NAME,
 			false,
-			\dapre_wpsp\PLUGIN_DIR_PATH . 'languages/'
+			PLUGIN_DIR_PATH . 'languages/'
 		);
 
 	}

@@ -2,20 +2,15 @@
 
 namespace dapre_wpsp\includes;
 
+use function dapre_wpsp\get_asset_version;
+use const dapre_wpsp\PLUGIN_DIR_PATH;
+use const dapre_wpsp\PLUGIN_NAME;
+use const dapre_wpsp\PLUGIN_URL_PATH;
+
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-
-/**
- * The public-facing functionality of the plugin.
- *
- * @link       https://giuliodaprela.com
- * @since      1.0.0
- *
- * @package    dapre_wpsp
- * @subpackage dapre_wpsp/plugin_public
- */
 
 /**
  * The public-facing functionality of the plugin.
@@ -57,8 +52,8 @@ class Plugin_Public {
 		 * @var string|int $version the version to assign to the asset file.
 		 * It will be the asset timestamp if we are in debug mode, the plugin version if we are in production mode
 		 */
-		$version = \dapre_wpsp\get_asset_version( \dapre_wpsp\PLUGIN_DIR_PATH . 'plugin-public/css/frontend-styles.min.css');
-		wp_enqueue_style( \dapre_wpsp\PLUGIN_NAME, \dapre_wpsp\PLUGIN_URL_PATH . 'plugin-admin/css/frontend-styles.min.css', array(), $version, 'all' );
+		$version = get_asset_version( PLUGIN_DIR_PATH . 'plugin-public/css/frontend-styles.min.css');
+		wp_enqueue_style( PLUGIN_NAME, PLUGIN_URL_PATH . 'plugin-admin/css/frontend-styles.min.css', array(), $version, 'all' );
 
 	}
 
@@ -79,8 +74,8 @@ class Plugin_Public {
 		 * @var string|int $version the version to assign to the asset file.
 		 * It will be the asset timestamp if we are in debug mode, the plugin version if we are in production mode
 		 */
-		$version = \dapre_wpsp\get_asset_version( \dapre_wpsp\PLUGIN_DIR_PATH . 'plugin-public/js/wp-starter-plugin.min.js');
-		wp_enqueue_script( \dapre_wpsp\PLUGIN_NAME, \dapre_wpsp\PLUGIN_URL_PATH . 'plugin-admin/js/wp-starter-plugin.min.js', array( 'jquery' ), $version, false );
+		$version = get_asset_version( PLUGIN_DIR_PATH . 'plugin-public/js/wp-starter-plugin.min.js');
+		wp_enqueue_script( PLUGIN_NAME, PLUGIN_URL_PATH . 'plugin-admin/js/wp-starter-plugin.min.js', array( 'jquery' ), $version, false );
 
 	}
 
