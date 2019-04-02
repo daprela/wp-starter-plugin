@@ -16,7 +16,7 @@
  * @wordpress-plugin
  * Plugin Name:       WordPress Starter Plugin
  * Plugin URI:        https://giuliodaprela.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       A WordPress starter plugin.
  * Version:           1.0.0
  * Author:            Giulio Daprela
  * Author URI:        https://giuliodaprela.com
@@ -99,11 +99,10 @@ function deactivate_plugin() {
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require PLUGIN_DIR_PATH . 'includes/class-wp-starter-plugin.php';
+require PLUGIN_DIR_PATH . 'includes/class-loader.php';
 
 /**
- * If we are in production mode it returns the plugin version.
- * If we are in debug mode it returns the timestamp of the file.
+ * Returns the timestamp of the file to use it as version number for the asset.
  * Every time that we save the file the timestamp is updated
  * and therefore the asset version changes, making the debug easier.
  *
@@ -111,35 +110,20 @@ require PLUGIN_DIR_PATH . 'includes/class-wp-starter-plugin.php';
  *
  * @param string $asset_file complete path to the asset file (not to confuse with the URL)
  *
- * @return string|int The asset timestamp or the plugin version
+ * @return int The asset timestamp
  */
 function get_asset_version( $asset_file ) {
 
-	if ( plugin_is_in_debug_mode() ) {
+	/** @var int $version the timestamp of the asset file */
+	$asset_version = filemtime( $asset_file );
 
-		/** @var int $version the timestamp of the asset file */
-		$version = filemtime( $asset_file );
-
-		// detect the case where a Windows server returns the wrong encoding and convert
-		if ( $version === false ) {
-			$version = filemtime( utf8_decode( $asset_file ) );
-		}
-
-		return $version;
+	// detect the case where a Windows server returns the wrong encoding and convert
+	if ( $asset_version === false ) {
+		$asset_version = filemtime( utf8_decode( $asset_file ) );
 	}
 
-	return PLUGIN_VERSION;
+	return $asset_version;
 }
 
-/**
- * Checks if the site is in development/debug mode.
- *
- * @since 1.0.0
- *
- * @return bool True if the site is in debug mode
- */
-function plugin_is_in_debug_mode() {
-	return ( (bool) WP_DEBUG === true );
-}
-
-new includes\Dapre_Wpsp();
+/** @var object $loader The main class responsible for internationalization and instantiating all other classes */
+$loader = new includes\Loader();
