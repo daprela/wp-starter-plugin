@@ -7,7 +7,7 @@ Features:
 * The plugin is 'namespaced'.
 * A class autoloader loads classes without including files manually.
 * Constants are created automatically from the plugin headers where possible.
-* A function detects if the plugin is in debug mode. In that case, all of the assets are versioned from their file timestamp to bypass browser cache. Every time a file is saved the version changes and the file is refreshed.
+* A function versions all of the assets from their file timestamp to bypass browser cache. Every time a file is saved the version changes and the file is refreshed.
 * A basic composer file install PHP unit and a few dev tools.
 * A Gulp file written for Gulp 4 provides the tools for the following.
      * Compile Sass to CSS.
@@ -31,6 +31,7 @@ From the terminal, give the following commands
     * Images are compressed. Original non compressed images must be under *src/images/*
     * A .pot file is generated and saved under the folder *languages*.
     * Creates the zip file of the plugin and saves it under the folder *bundled*
+* `gulp initPlugin`: replaces the strings in the plugin headers and the namespace. The replacement strings must be specified in the file `package.json`. It also rename the main files according to the new plugin name. It can't rename the root folder of the plugin. Run this command first when you download the starter plugin and before you start any development. This task doesn't work anymore after the first run because the strings are changed. Update the search strings in the Gulp file if you need to run it again.
 
 ### Using single gulp commands
 The following commands are already part of the bundled instructions `npm run start` and `npm run build`. Here, they can be run alone in case of need.
