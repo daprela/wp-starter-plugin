@@ -52,8 +52,8 @@ class Plugin_Public {
 		 * @var string|int $version the version to assign to the asset file.
 		 * It will be the asset timestamp if we are in debug mode, the plugin version if we are in production mode
 		 */
-		$version = get_asset_version( PLUGIN_DIR_PATH . 'plugin-public/css/frontend-styles.min.css');
-		wp_enqueue_style( PLUGIN_NAME, PLUGIN_URL_PATH . 'plugin-admin/css/frontend-styles.min.css', array(), $version, 'all' );
+		$version = get_asset_version( PLUGIN_DIR_PATH . 'assets/css/frontend-styles.min.css');
+		wp_enqueue_style( PLUGIN_NAME, PLUGIN_URL_PATH . 'assets/css/frontend-styles.min.css', array(), $version, 'all' );
 
 	}
 
@@ -74,9 +74,8 @@ class Plugin_Public {
 		 * @var string|int $version the version to assign to the asset file.
 		 * It will be the asset timestamp if we are in debug mode, the plugin version if we are in production mode
 		 */
-		$version = get_asset_version( PLUGIN_DIR_PATH . 'plugin-public/js/wp-starter-plugin.min.js');
-		wp_enqueue_script( PLUGIN_NAME, PLUGIN_URL_PATH . 'plugin-admin/js/wp-starter-plugin.min.js', array( 'jquery' ), $version, false );
+		$version = get_asset_version( PLUGIN_DIR_PATH . 'assets/js/wp-starter-plugin.min.js');
+		wp_enqueue_script( PLUGIN_NAME, PLUGIN_URL_PATH . 'assets/js/wp-starter-plugin.min.js', array( 'jquery' ), $version, false );
 
 	}
-
 }
