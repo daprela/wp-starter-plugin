@@ -138,11 +138,11 @@ export const compress = () => {
 };
 
 export const watchForChanges = () => {
-	watch('src/scss/*.scss', styles_admin);
-	watch('src/scss/*.scss', styles_frontend);
+	watch('assets/css/*.scss', styles_admin);
+	watch('assets/css/*.scss', styles_frontend);
 	watch('src/images/*.{jpg,jpeg,png,svg,gif}', series(images, reload));
-	watch(['arc/**/*','!src/{images,js,scss}','!src/{images,js,scss}/*'], series(copy, reload));
-	watch('src/js/*.js', series(scripts, reload));
+	watch(['assets/**/*','!src/{images,js,scss}','!src/{images,js,scss}/*'], series(copy, reload));
+	watch('assets/js/*.js', series(scripts, reload));
 	watch("**/*.php", reload);
 };
 
