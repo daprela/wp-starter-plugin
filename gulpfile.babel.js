@@ -193,7 +193,7 @@ export const renamePartial = () => {
 export const renameMinJS = () => {
 	return src(	"assets/js/wp-starter-plugin.min.js")
 	.pipe(rename(`${info.name}.min.js`))
-	.pipe(dest("includes/"))
+	.pipe(dest("assets/js/"))
 };
 export const renameJS = () => {
 	return src(	"assets/js/wp-starter-plugin.js")
@@ -201,7 +201,7 @@ export const renameJS = () => {
 	.pipe(dest("assets/js/"))
 };
 export const  cleanInit = () => {
-	return del(["wp-starter-plugin.php", "templates/wp-starter-plugin-template.php", "templates/partials/wp-starter-plugin-partial.php", "includes/class-loader.php", "assets/js/wp-starter-plugin.js"])
+	return del(["wp-starter-plugin.php", "templates/wp-starter-plugin-template.php", "templates/partials/wp-starter-plugin-partial.php", "assets/js/wp-starter-plugin.js"])
 }
 
 /* Run tasks in series to clean the Dev folder and start watching the files */

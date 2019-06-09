@@ -11,9 +11,9 @@
   "textDomain": "dapre-wpsp",
   "main": "gulpfile.babel.js",
   "dependencies": {
-    "autoprefixer": "^9.5.1",
+    "autoprefixer": "^9.6.0",
     "babel-loader": "^8.0.6",
-    "browser-sync": "^2.26.5",
+    "browser-sync": "^2.26.7",
     "del": "^4.1.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.2.0",
