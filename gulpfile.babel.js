@@ -146,6 +146,7 @@ export const watchForChanges = () => {
 	watch("**/*.php", reload);
 };
 
+/* Please don't modify anything below this comment */
 export const updateStrings = () => {
 	return src([
 		"./**",
@@ -200,13 +201,18 @@ export const renameJS = () => {
 	.pipe(rename(`${info.name}.js`))
 	.pipe(dest("assets/js/"))
 };
+export const renamePOT = () => {
+	return src(	"languages/wp-starter-plugin.pot")
+	.pipe(rename(`${info.name}.pot`))
+	.pipe(dest("languages/"))
+};
 export const  cleanInit = () => {
-	return del(["wp-starter-plugin.php", "templates/wp-starter-plugin-template.php", "templates/partials/wp-starter-plugin-partial.php", "assets/js/wp-starter-plugin.js"])
-}
+	return del(["wp-starter-plugin.php", "templates/wp-starter-plugin-template.php", "templates/partials/wp-starter-plugin-partial.php", "assets/js/wp-starter-plugin.js", "assets/js/wp-starter-plugin.min.js", "languages/wp-starter-plugin.pot"])
+};
 
 /* Run tasks in series to clean the Dev folder and start watching the files */
 export const dev = series(clean, parallel(styles_admin, styles_frontend, images, copy, scripts), serve, watchForChanges);
 export const build = series(clean, parallel(styles_admin, styles_frontend, images, copy, scripts), compress);
-export const initPlugin = series(updateStrings, renameMain, renameTemplate, renamePartial, renameMinJS, renameJS, cleanInit);
+export const initPlugin = series(updateStrings, renameMain, renameTemplate, renamePartial, renameMinJS, renameJS, renamePOT, cleanInit );
 
 export default dev;
