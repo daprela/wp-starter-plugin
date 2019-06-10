@@ -173,6 +173,7 @@ export const updateStrings = () => {
 	.pipe(replace("WordPress Starter Plugin", info.pluginName))
 	.pipe(replace("A WordPress starter plugin.", info.description))
 	.pipe(replace("dapre-wpsp", info.textDomain))
+	.pipe(replace("wp-starter-plugin", info.name))
 	.pipe(dest("."))
 };
 export const renameMain = () => {
