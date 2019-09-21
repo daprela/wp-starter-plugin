@@ -11,7 +11,7 @@
   "textDomain": "dapre-wpsp",
   "main": "gulpfile.babel.js",
   "dependencies": {
-    "autoprefixer": "^9.6.0",
+    "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
     "del": "^4.1.1",
@@ -28,12 +28,12 @@
     "gulp-zip": "^4.2.0",
     "vinyl-named": "^1.1.0",
     "webpack-stream": "^5.2.1",
-    "yargs": "^13.2.4"
+    "yargs": "^13.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/register": "^7.4.4"
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
