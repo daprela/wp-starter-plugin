@@ -44,13 +44,8 @@ class Admin {
 	 */
 	public function enqueue_styles() {
 
-		/*
-		 * This function is provided for demonstration purposes only.
-		 */
-
 		/**
-		 * @var string|int $version the version to assign to the asset file.
-		 * It will be the asset timestamp if we are in debug mode, the plugin version if we are in production mode
+		 * @var string|int $version the version to assign to the asset file will be the asset timestamp.
 		 */
 		$version = get_asset_version( PLUGIN_DIR_PATH . 'assets/css/admin-styles.min.css' );
 		wp_enqueue_style( PLUGIN_NAME, PLUGIN_URL_PATH . 'assets/css/admin-styles.min.css', [], $version, 'all' );
@@ -65,13 +60,8 @@ class Admin {
 	 */
 	public function enqueue_scripts() {
 
-		/*
-		 * This function is provided for demonstration purposes only.
-		 */
-
 		/**
-		 * @var string|int $version the version to assign to the asset file.
-		 * It will be the asset timestamp if we are in debug mode, the plugin version if we are in production mode
+		 * @var string|int $version the version to assign to the asset file will be the asset timestamp.
 		 */
 		$version = get_asset_version( PLUGIN_DIR_PATH . 'assets/js/wp-starter-plugin.min.js' );
 		wp_enqueue_script( PLUGIN_NAME, PLUGIN_URL_PATH . 'assets/js/wp-starter-plugin.min.js', [ 'jquery' ], $version, false );

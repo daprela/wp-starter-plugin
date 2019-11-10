@@ -7,6 +7,8 @@ import { src, dest, watch, series, parallel } from 'gulp';
 import postcss from 'gulp-postcss';
 import sourcemaps from 'gulp-sourcemaps';
 import autoprefixer from 'autoprefixer';
+import notify from 'gulp-notify';
+import sassGlob from 'gulp-sass-glob-import';
 import yargs from 'yargs';
 import sass from 'gulp-sass';
 import cleanCss from 'gulp-clean-css';
@@ -34,34 +36,25 @@ import info from "./package.json";
 import replace from "gulp-replace";
 import vinyl from 'vinyl';
 
-export const styles_admin = () => {
-	return src('assets/css/admin-styles.scss')
-	.pipe(named())
-	.pipe(gulpif(!PRODUCTION, sourcemaps.init()))
-	.pipe(sass().on('error', sass.logError))
-	.pipe(gulpif(PRODUCTION, postcss([autoprefixer])))
-	.pipe(gulpif(PRODUCTION, cleanCss({compatibility: 'ie8'})))
-	.pipe(gulpif(!PRODUCTION, sourcemaps.write()))
-	.pipe(rename('admin-styles.min.css'))
-	.pipe(dest('assets/css'));
-};
-
-export const styles_frontend = () => {
-	return src('assets/css/frontend-styles.scss')
-	.pipe(named())
-	.pipe(gulpif(!PRODUCTION, sourcemaps.init()))
-	.pipe(sass().on('error', sass.logError))
-	.pipe(gulpif(PRODUCTION, postcss([autoprefixer])))
-	.pipe(gulpif(PRODUCTION, cleanCss({compatibility: 'ie8'})))
-	.pipe(gulpif(!PRODUCTION, sourcemaps.write()))
-	.pipe(rename('frontend-styles.min.css'))
-	.pipe(dest('assets/css'));
+export const styles = () => {
+	return src('assets/css/*.scss')
+	.pipe(sassGlob()) // allow importing multiple files using '/*'
+		.pipe(named())
+		.pipe(gulpif(!PRODUCTION, sourcemaps.init()))
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulpif(PRODUCTION, postcss([autoprefixer])))
+		.pipe(gulpif(PRODUCTION, cleanCss({compatibility: 'ie8'})))
+		.pipe(gulpif(!PRODUCTION, sourcemaps.write()))
+		.pipe(rename({ suffix: '.min' }))
+		.pipe(dest('assets/css'))
+		.pipe(notify({ message: 'Sass completed' }));
 };
 
 export const images = () => {
 	return src('src/images/*.{jpg,jpeg,png,svg,gif}')
 	.pipe(gulpif(PRODUCTION, imagemin()))
-	.pipe(dest('assets/images'));
+	.pipe(dest('assets/images'))
+	.pipe(notify({ message: 'Image compression completed' }));
 };
 
 export const copy = () => {
@@ -75,7 +68,7 @@ export const clean = () => {
 
 /* Accepts an array of files as input and then rename the output by adding the min suffix */
 export const scripts = () => {
-	return src(['assets/js/wp-starter-plugin.js'])
+	return src(['assets/js/*.js'])
 	.pipe(named())
 	.pipe(webpack({
 		module: {
@@ -100,7 +93,8 @@ export const scripts = () => {
 			jquery: 'jQuery'
 		},
 	}))
-	.pipe(dest('assets/js'));
+	.pipe(dest('assets/js'))
+	.pipe(notify({ message: 'Scripts completed' }));
 };
 
 const server = browserSync.create();
@@ -138,8 +132,7 @@ export const compress = () => {
 };
 
 export const watchForChanges = () => {
-	watch('assets/css/*.scss', styles_admin);
-	watch('assets/css/*.scss', styles_frontend);
+	watch('assets/css/*.scss', styles);
 	watch('src/images/*.{jpg,jpeg,png,svg,gif}', series(images, reload));
 	watch(['assets/**/*','!src/{images,js,scss}','!src/{images,js,scss}/*'], series(copy, reload));
 	watch('assets/js/*.js', series(scripts, reload));
@@ -212,8 +205,8 @@ export const  cleanInit = () => {
 };
 
 /* Run tasks in series to clean the Dev folder and start watching the files */
-export const dev = series(clean, parallel(styles_admin, styles_frontend, images, copy, scripts), serve, watchForChanges);
-export const build = series(clean, parallel(styles_admin, styles_frontend, images, copy, scripts), compress);
+export const dev = series(clean, parallel(styles, images, copy, scripts), serve, watchForChanges);
+export const build = series(clean, parallel(styles, images, copy, scripts), compress);
 export const initPlugin = series(updateStrings, renameMain, renameTemplate, renamePartial, renameMinJS, renameJS, renamePOT, cleanInit );
 
 export default dev;

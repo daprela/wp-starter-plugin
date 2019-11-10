@@ -11,7 +11,8 @@
   "textDomain": "dapre-wpsp",
   "main": "gulpfile.babel.js",
   "dependencies": {
-    "autoprefixer": "^9.6.1",
+    "acorn": "^7.1.0",
+    "autoprefixer": "^9.7.1",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
     "del": "^4.1.1",
@@ -19,10 +20,12 @@
     "gulp-clean-css": "^4.2.0",
     "gulp-if": "^2.0.2",
     "gulp-imagemin": "^5.0.3",
+    "gulp-notify": "^3.2.0",
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
     "gulp-sass": "^4.0.2",
+    "gulp-sass-glob-import": "^0.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-wp-pot": "^2.3.5",
     "gulp-zip": "^4.2.0",
@@ -31,9 +34,9 @@
     "yargs": "^13.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/register": "^7.5.5"
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/register": "^7.7.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

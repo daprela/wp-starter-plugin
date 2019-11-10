@@ -54,8 +54,7 @@ class Loader {
 
 		$this->load_dependencies();
 		$this->set_locale();
-		$this->define_admin_hooks();
-		$this->define_public_hooks();
+		$this->register_hooks();
 	}
 
 	/**
@@ -125,34 +124,23 @@ class Loader {
 	}
 
 	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
-	 * This function is provided only for demonstration purposes.
+	 * Register all of the hooks.
 	 *
 	 * @since    1.0.0
 	 * @access   private
 	 *
 	 * @return void
 	 */
-	private function define_admin_hooks() {
+	private function register_hooks() {
 
+		// enqueuing admin stlyes
 		add_action( 'admin_enqueue_scripts', [ $this->admin, 'enqueue_styles' ] );
+		// enqueuing admin scripts
 		add_action( 'admin_enqueue_scripts', [ $this->admin, 'enqueue_scripts' ] );
-	}
 
-	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 * This function is provided only for demonstration purposes.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 *
-	 * @return void
-	 */
-	private function define_public_hooks() {
-
+		// enqueuing frontend stlyes
 		add_action( 'wp_enqueue_scripts', [$this->plugin_public, 'enqueue_styles'] );
+		// enqueuing frontend scripts
 		add_action( 'wp_enqueue_scripts', [$this->plugin_public, 'enqueue_scripts'] );
 	}
 }
