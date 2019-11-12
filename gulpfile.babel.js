@@ -1,3 +1,46 @@
+/*
+Here's a quick rundown of our Gulp setup:
+
+------------------
+TERMINAL COMMANDS:
+------------------
+npm run build  - This will run the build process once then stop.
+                 The build process will compile and minify all assets and producea installable zip file under the 'build' folder
+npm run start - This will run the build process, then will start watching asset files for changes.
+			    When a file is changed the associated build task will run again and live-reload will fire.
+gulp initPlugin - This command must be launched only once on the vanilla boilerplate.
+                  It will customize the plugin namespace and and plugin header based on the strings in package.json
+                  Once the command is executed you can start coding immediately. This command doesn't change the plugin's folder name.
+
+---------------------
+ASSET FILE STRUCTURE:
+---------------------
+PLUGIN/assets/css/*.scss   ->   PLUGIN/assets/css/*.min.css
+PLUGIN/assets/js/*.js   ->   PLUGIN/assets/js/*.min.js
+PLUGIN/src/images/*.{jpg,jpeg,png,svg,gif}   ->   PLUGIN/assets/images/*.{jpg,jpeg,png,svg,gif}
+
+
+-------------------------------------------------
+Running Gulp will do the following things for us:
+-------------------------------------------------
+SCSS
+	- Autoprefix our SCSS
+	- Minify the output CSS
+	- Add '.min' to the end of the output file name
+	- Drop the final autoprefixed, minified CSS file in assets/css as style.css
+
+JS
+	- Concatenate all our JS files
+	- add '.min' to the end of the output file name
+	- Minify the JS
+	- Runs jshint on our JS, catching common errors and warnings and displaying them in the terminal
+	- Drops the final JS file in the /assets/js folder
+
+IMAGES
+	- Compress images from src/images
+	- Drop compressed images in assets/images
+*/
+
 /**********************************************
  * Declarations
  *********************************************/
@@ -14,6 +57,9 @@ import sass from 'gulp-sass';
 import cleanCss from 'gulp-clean-css';
 import gulpif from 'gulp-if';
 import rename from 'gulp-rename';
+import concat from 'gulp-concat';
+import uglify from 'gulp-uglify';
+import jshint from 'gulp-jshint';
 const PRODUCTION = yargs.argv.prod;
 
 /* Declarations for images */
@@ -57,6 +103,16 @@ export const images = () => {
 	.pipe(notify({ message: 'Image compression completed' }));
 };
 
+export const scripts = () => {
+	return src(['assets/js/*.js'])
+	.pipe(concat('scripts.js'))
+	.pipe(rename({ suffix: '.min' }))
+	.pipe(uglify())
+	.pipe(jshint())
+	.pipe(dest('assets/js'))
+	.pipe(notify({ message: 'Scripts completed' }))
+};
+
 export const copy = () => {
 	return src(['src/**/*','!src/{images,js,scss}','!src/{images,js,scss}/*'])
 	.pipe(dest('assets'));
@@ -67,7 +123,7 @@ export const clean = () => {
 };
 
 /* Accepts an array of files as input and then rename the output by adding the min suffix */
-export const scripts = () => {
+export const scripts2 = () => {
 	return src(['assets/js/*.js'])
 	.pipe(named())
 	.pipe(webpack({
