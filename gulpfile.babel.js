@@ -4,10 +4,10 @@ Here's a quick rundown of our Gulp setup:
 ------------------
 TERMINAL COMMANDS:
 ------------------
-npm run build  - This will run the build process once then stop.
-                 The build process will compile and minify all assets and producea installable zip file under the 'build' folder
-npm run start - This will run the build process, then will start watching asset files for changes.
-			    When a file is changed the associated build task will run again and live-reload will fire.
+npm run build   - This will run the build process once then stop.
+                  The build process will compile and minify all assets and produce a installable zip file under the 'build' folder
+npm run dev     - This will run the build process, then will start watching asset files for changes.
+			      When a file is changed the associated build task will run again and live-reload will fire.
 gulp initPlugin - This command must be launched only once on the vanilla boilerplate.
                   It will customize the plugin namespace and and plugin header based on the strings in package.json
                   Once the command is executed you can start coding immediately. This command doesn't change the plugin's folder name.
@@ -57,9 +57,6 @@ import sass from 'gulp-sass';
 import cleanCss from 'gulp-clean-css';
 import gulpif from 'gulp-if';
 import rename from 'gulp-rename';
-import concat from 'gulp-concat';
-import uglify from 'gulp-uglify';
-import jshint from 'gulp-jshint';
 const PRODUCTION = yargs.argv.prod;
 
 /* Declarations for images */
@@ -72,6 +69,10 @@ import del from 'del';
 import webpack from 'webpack-stream';
 import named from 'vinyl-named';
 
+require("@babel/core").transform("code", {
+	plugins: ["@babel/plugin-transform-react-jsx"]
+});
+
 /* Refresh the browser when a file changes */
 import browserSync from "browser-sync";
 
@@ -83,17 +84,17 @@ import replace from "gulp-replace";
 import vinyl from 'vinyl';
 
 export const styles = () => {
-	return src('assets/css/*.scss')
+	return src('src/css/*.scss')
 	.pipe(sassGlob()) // allow importing multiple files using '/*'
-		.pipe(named())
-		.pipe(gulpif(!PRODUCTION, sourcemaps.init()))
-		.pipe(sass().on('error', sass.logError))
-		.pipe(gulpif(PRODUCTION, postcss([autoprefixer])))
-		.pipe(gulpif(PRODUCTION, cleanCss({compatibility: 'ie8'})))
-		.pipe(gulpif(!PRODUCTION, sourcemaps.write()))
-		.pipe(rename({ suffix: '.min' }))
-		.pipe(dest('assets/css'))
-		.pipe(notify({ message: 'Sass completed' }));
+	.pipe(named())
+	.pipe(gulpif(!PRODUCTION, sourcemaps.init()))
+	.pipe(sass().on('error', sass.logError))
+	.pipe(gulpif(PRODUCTION, postcss([autoprefixer])))
+	.pipe(gulpif(PRODUCTION, cleanCss({compatibility: 'ie8'})))
+	.pipe(gulpif(!PRODUCTION, sourcemaps.write()))
+	.pipe(rename({ suffix: '.min' }))
+	.pipe(dest('assets/css'))
+	.pipe(notify({ message: 'Sass completed' }));
 };
 
 export const images = () => {
@@ -104,27 +105,7 @@ export const images = () => {
 };
 
 export const scripts = () => {
-	return src(['assets/js/*.js'])
-	.pipe(concat('scripts.js'))
-	.pipe(rename({ suffix: '.min' }))
-	.pipe(uglify())
-	.pipe(jshint())
-	.pipe(dest('assets/js'))
-	.pipe(notify({ message: 'Scripts completed' }))
-};
-
-export const copy = () => {
-	return src(['src/**/*','!src/{images,js,scss}','!src/{images,js,scss}/*'])
-	.pipe(dest('assets'));
-};
-
-export const clean = () => {
-	return del(['assets/css/*.min.css', 'assets/js/*.min.js', 'assets/images/*.{jpg,jpeg,png,svg,gif}']);
-};
-
-/* Accepts an array of files as input and then rename the output by adding the min suffix */
-export const scripts2 = () => {
-	return src(['assets/js/*.js'])
+	return src(['src/js/*.js'])
 	.pipe(named())
 	.pipe(webpack({
 		module: {
@@ -134,14 +115,34 @@ export const scripts2 = () => {
 					use: {
 						loader: 'babel-loader',
 						options: {
-							presets: ['@babel/preset-env']
+							presets: [
+								"@wordpress/default",
+								'@babel/preset-env',
+								["@babel/preset-react",
+									{
+										"development": PRODUCTION ? false : true,
+									}]
+							],
+							plugins: [
+								[
+									"@babel/transform-react-jsx",
+									{ pragma: "wp.element.createElement" }
+								],
+								[
+									"transform-react-remove-prop-types",
+									{
+										mode: "wrap",
+										ignoreFilenames: ["node_modules"]
+									}
+								]
+							]
 						}
 					}
 				}
 			]
 		},
 		mode: PRODUCTION ? 'production' : 'development',
-		devtool: !PRODUCTION ? 'inline-source-map' : false,
+		devtool: !PRODUCTION ? 'source-map' : false,
 		output: {
 			filename: '[name].min.js'
 		},
@@ -151,6 +152,19 @@ export const scripts2 = () => {
 	}))
 	.pipe(dest('assets/js'))
 	.pipe(notify({ message: 'Scripts completed' }));
+};
+
+export const copy = () => {
+	return src(['src/**/*','!src/{images,js,scss}','!src/{images,js,scss}/*'])
+	.pipe(dest('assets'));
+};
+
+export const clean = () => {
+	return del(['assets/css/*.min.css', 'assets/js/*.min.js', 'assets/js/*.min.js.map', 'assets/images/*.{jpg,jpeg,png,svg,gif}']);
+};
+
+export const bundleClean = () => {
+	return del(['bundled/*']);
 };
 
 const server = browserSync.create();
@@ -171,7 +185,10 @@ export const compress = () => {
 		"!node_modules{,/**}",
 		"!bundled{,/**}",
 		"!src{,/**}",
+		"!assets/css{,/*.map}",
+		"!assets/js{,/*.map}",
 		"!vendor{,/**}",
+		"!blocks{,/**}",
 		"!.babelrc",
 		"!.gitignore",
 		"!gulpfile.babel.js",
@@ -181,6 +198,9 @@ export const compress = () => {
 		"!composer.lock",
 		"!phpunit.xml.dist",
 		"!wp-tests-config.php",
+		"!webpack.common.js",
+		"!webpack.dev.js",
+		"!webpack.prod.js",
 		"!tests{,/**}",
 	])
 	.pipe(zip(`${info.name}.zip`))
@@ -188,10 +208,9 @@ export const compress = () => {
 };
 
 export const watchForChanges = () => {
-	watch('assets/css/*.scss', styles);
+	watch('src/scss/*.scss', styles);
 	watch('src/images/*.{jpg,jpeg,png,svg,gif}', series(images, reload));
-	watch(['assets/**/*','!src/{images,js,scss}','!src/{images,js,scss}/*'], series(copy, reload));
-	watch('assets/js/*.js', series(scripts, reload));
+	watch(['src/js/*.js'], series(scripts, reload));
 	watch("**/*.php", reload);
 };
 
@@ -241,28 +260,18 @@ export const renamePartial = () => {
 	.pipe(rename(`${info.name}-partial.php`))
 	.pipe(dest("templates/partials/"))
 };
-export const renameMinJS = () => {
-	return src(	"assets/js/wp-starter-plugin.min.js")
-	.pipe(rename(`${info.name}.min.js`))
-	.pipe(dest("assets/js/"))
-};
-export const renameJS = () => {
-	return src(	"assets/js/wp-starter-plugin.js")
-	.pipe(rename(`${info.name}.js`))
-	.pipe(dest("assets/js/"))
-};
 export const renamePOT = () => {
 	return src(	"languages/wp-starter-plugin.pot")
 	.pipe(rename(`${info.name}.pot`))
 	.pipe(dest("languages/"))
 };
 export const  cleanInit = () => {
-	return del(["wp-starter-plugin.php", "templates/wp-starter-plugin-template.php", "templates/partials/wp-starter-plugin-partial.php", "assets/js/wp-starter-plugin.js", "assets/js/wp-starter-plugin.min.js", "languages/wp-starter-plugin.pot"])
+	return del(["wp-starter-plugin.php", "templates/wp-starter-plugin-template.php", "templates/partials/wp-starter-plugin-partial.php", "languages/wp-starter-plugin.pot"])
 };
 
 /* Run tasks in series to clean the Dev folder and start watching the files */
-export const dev = series(clean, parallel(styles, images, copy, scripts), serve, watchForChanges);
-export const build = series(clean, parallel(styles, images, copy, scripts), compress);
-export const initPlugin = series(updateStrings, renameMain, renameTemplate, renamePartial, renameMinJS, renameJS, renamePOT, cleanInit );
+export const dev = series(parallel(styles, images, scripts), serve, watchForChanges);
+export const build = series(bundleClean, parallel(styles, images, scripts), compress);
+export const initPlugin = series(updateStrings, renameMain, renameTemplate, renamePartial, renamePOT, cleanInit );
 
 export default dev;

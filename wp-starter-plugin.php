@@ -125,5 +125,5 @@ function get_asset_version( $asset_file ) {
 	return $asset_version;
 }
 
-/** @var object $loader The main class responsible for internationalization and instantiating all other classes */
-$loader = new includes\Loader();
+/** The main class responsible for internationalization and instantiating all other classes */
+new includes\Loader();

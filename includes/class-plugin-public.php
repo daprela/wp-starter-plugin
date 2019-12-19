@@ -64,8 +64,8 @@ class Plugin_Public {
 		/**
 		 * @var string|int $version the version to assign to the asset file will be the asset timestamp.
 		 */
-		$version = get_asset_version( PLUGIN_DIR_PATH . 'assets/js/wp-starter-plugin.min.js');
-		wp_enqueue_script( PLUGIN_NAME, PLUGIN_URL_PATH . 'assets/js/wp-starter-plugin.min.js', array( 'jquery' ), $version, false );
+		$version = get_asset_version( PLUGIN_DIR_PATH . 'assets/js/frontend.min.js');
+		wp_enqueue_script( PLUGIN_NAME, PLUGIN_URL_PATH . 'assets/js/frontend.min.js', array( 'jquery' ), $version, false );
 
 	}
 }

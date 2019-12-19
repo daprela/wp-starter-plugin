@@ -32,6 +32,9 @@ class Loader {
 	/** @var object $plugin_i18n The internationalization class */
 	public $plugin_i18n;
 
+	/** @var object $blocks The blocks class */
+	public $blocks;
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -51,6 +54,7 @@ class Loader {
 		$this->admin         = new Admin();
 		$this->plugin_public = new Plugin_Public();
 		$this->plugin_i18n   = new i18n();
+		$this->blocks        = new Blocks();
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -142,5 +146,10 @@ class Loader {
 		add_action( 'wp_enqueue_scripts', [$this->plugin_public, 'enqueue_styles'] );
 		// enqueuing frontend scripts
 		add_action( 'wp_enqueue_scripts', [$this->plugin_public, 'enqueue_scripts'] );
+
+		// enqueuing Gutenberg editor assets
+		add_action( 'enqueue_block_editor_assets', [$this->blocks, 'editor_scripts'] );
+		// enqueuing Gutenberg frontend assets
+		add_action( 'enqueue_block_assets', [$this->blocks, 'frontend_scripts'] );
 	}
 }
