@@ -84,7 +84,7 @@ import replace from "gulp-replace";
 import vinyl from 'vinyl';
 
 export const styles = () => {
-	return src('src/css/*.scss')
+	return src('src/scss/*.scss')
 	.pipe(sassGlob()) // allow importing multiple files using '/*'
 	.pipe(named())
 	.pipe(gulpif(!PRODUCTION, sourcemaps.init()))
