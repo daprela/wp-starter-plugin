@@ -87,24 +87,26 @@ class Loader {
 	 */
 	private function autoload( $class ) {
 
-		/** @var string $class_path the path where the class file is found */
-		$class_path = strtolower( str_replace( "_", "-", $class ) );
+		/** @var string $class_dir_path the path where the class file is found */
+		$class_dir_path = strtolower( str_replace( "_", "-", $class ) );
+		$dir_paths = explode( '\\', $class_dir_path );
 
-		/** @var array $paths The $class_path exploded */
-		$paths = explode( '\\', $class_path );
+		/** @var array $paths The class namespace path */
+		$paths = explode( '\\', $class );
+		$namespace = explode( '\\',__NAMESPACE__);
 
-		if ( $paths[0] != PLUGIN_NAME ) {
+		if ( $paths[0] != $namespace[0] ) {
 			return;
 		}
 
 		/** @var string $class_file The path to the file containing the class called */
-		$class_file = PLUGIN_DIR_PATH . "$paths[1]/class-{$paths[2]}.php";
+		$class_file = PLUGIN_DIR_PATH . "$dir_paths[1]/class-{$dir_paths[2]}.php";
 
 		if ( file_exists( $class_file ) ) {
 			include_once( $class_file );
 		}  else {
 			/** @var string $abstract_class_file */
-			$abstract_class_file = PLUGIN_DIR_PATH . "$paths[1]/abstract-class-{$paths[2]}.php";
+			$abstract_class_file = PLUGIN_DIR_PATH . "$dir_paths[1]/abstract-class-{$dir_paths[2]}.php";
 			if ( file_exists($abstract_class_file) ) {
 				include_once($abstract_class_file);
 			}
