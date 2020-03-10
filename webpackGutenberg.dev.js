@@ -1,6 +1,6 @@
 const path = require("path");
 const merge = require("webpack-merge");
-const common = require("./webpack.common");
+const common = require("./webpackGutenberg.common");
 const blocksCSSPlugin = require("mini-css-extract-plugin");
 const editBlocksCSSPlugin = require("mini-css-extract-plugin");
 
@@ -19,7 +19,15 @@ module.exports = merge(common, {
 				use: {
 					loader: "babel-loader",
 					options: {
-						presets: ["@wordpress/default"],
+						presets: [
+							'@wordpress/default',
+							['@babel/preset-env', {
+								targets: {
+									// The % refers to the global coverage of users from browserslist
+									browsers: ['>2%', 'not ie 11', 'not op_mini all'],
+								},
+							}],
+						],
 						plugins: [
 							[
 								"@babel/transform-react-jsx",

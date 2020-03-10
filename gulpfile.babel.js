@@ -44,7 +44,9 @@ IMAGES
 /**********************************************
  * Declarations
  *********************************************/
-import { src, dest, watch, series, parallel } from 'gulp';
+import {
+	src, dest, watch, series, parallel,
+} from 'gulp';
 
 /* Declarations for style files */
 import postcss from 'gulp-postcss';
@@ -57,7 +59,6 @@ import sass from 'gulp-sass';
 import cleanCss from 'gulp-clean-css';
 import gulpif from 'gulp-if';
 import rename from 'gulp-rename';
-const PRODUCTION = yargs.argv.prod;
 
 /* Declarations for images */
 import imagemin from 'gulp-imagemin';
@@ -66,12 +67,8 @@ import imagemin from 'gulp-imagemin';
 import del from 'del';
 
 /* Treating JavaScript files */
-import webpack from 'webpack-stream';
+import webpackStream from 'webpack-stream';
 import named from 'vinyl-named';
-
-require("@babel/core").transform("code", {
-	plugins: ["@babel/plugin-transform-react-jsx"]
-});
 
 /* Refresh the browser when a file changes */
 import browserSync from "browser-sync";
@@ -81,7 +78,15 @@ import zip from "gulp-zip";
 import info from "./package.json";
 
 import replace from "gulp-replace";
-import vinyl from 'vinyl';
+
+import wpGutenbergDev from './webpackGutenberg.dev';
+import wpGutenbergProd from './webpackGutenberg.prod';
+import wpNoGutenbergDev from './webpackNoGutenberg.dev';
+import wpNoGutenbergProd from './webpackNoGutenberg.prod';
+import wpAllDev from './webpackAll.dev';
+import wpAllProd from './webpackAll.prod';
+
+const PRODUCTION = yargs.argv.prod;
 
 export const styles = () => {
 	return src('src/scss/*.scss')
@@ -104,68 +109,49 @@ export const images = () => {
 	.pipe(notify({ message: 'Image compression completed' }));
 };
 
-export const scripts = () => {
-	return src(['src/js/*.js'])
-	.pipe(named())
-	.pipe(webpack({
-		module: {
-			rules: [
-				{
-					test: /\.js$/,
-					use: {
-						loader: 'babel-loader',
-						options: {
-							presets: [
-								"@wordpress/default",
-								'@babel/preset-env',
-								["@babel/preset-react",
-									{
-										"development": PRODUCTION ? false : true,
-									}]
-							],
-							plugins: [
-								[
-									"@babel/transform-react-jsx",
-									{ pragma: "wp.element.createElement" }
-								],
-								[
-									"transform-react-remove-prop-types",
-									{
-										mode: "wrap",
-										ignoreFilenames: ["node_modules"]
-									}
-								]
-							]
-						}
-					}
-				}
-			]
-		},
-		mode: PRODUCTION ? 'production' : 'development',
-		devtool: !PRODUCTION ? 'source-map' : false,
-		output: {
-			filename: '[name].min.js'
-		},
-		externals: {
-			jquery: 'jQuery'
-		},
-	}))
-	.pipe(dest('assets/js'))
-	.pipe(notify({ message: 'Scripts completed' }));
+export const webpackGutenbergDev = (done) => {
+	webpackStream(wpGutenbergDev)
+	  .pipe(dest('./'));
+	done();
 };
 
-export const copy = () => {
-	return src(['src/**/*','!src/{images,js,scss}','!src/{images,js,scss}/*'])
-	.pipe(dest('assets'));
+export const webpackGutenbergProd = (done) => {
+	webpackStream(wpGutenbergProd)
+	  .pipe(dest('./'));
+	done();
+};
+
+export const webpackNoGutenbergDev = (done) => {
+	webpackStream(wpNoGutenbergDev)
+	  .pipe(dest('./'));
+	done();
+};
+
+export const webpackNoGutenbergProd = (done) => {
+	webpackStream(wpNoGutenbergProd)
+	  .pipe(dest('./'));
+	done();
+};
+
+export const webpackAllDev = (done) => {
+	webpackStream(wpAllDev)
+	.pipe(dest('./'));
+	done();
+};
+
+export const webpackAllProd = (done) => {
+	webpackStream(wpAllProd)
+	.pipe(dest('./'));
+	done();
 };
 
 export const clean = () => {
 	return del(['assets/css/*.min.css', 'assets/js/*.min.js', 'assets/js/*.min.js.map', 'assets/images/*.{jpg,jpeg,png,svg,gif}']);
 };
 
-export const bundleClean = () => {
-	return del(['bundled/*']);
-};
+export const bundleClean = () => del([`bundled/${info.name}.zip`]);
+
+export const bundleSourcesClean = () => del([`bundled/${info.name}.sources.zip`]);
 
 const server = browserSync.create();
 export const serve = done => {
@@ -198,19 +184,45 @@ export const compress = () => {
 		"!composer.lock",
 		"!phpunit.xml.dist",
 		"!wp-tests-config.php",
-		"!webpack.common.js",
-		"!webpack.dev.js",
-		"!webpack.prod.js",
+		"!webpackAll.dev.js",
+		"!webpackAll.prod.js",
+		"!webpackGutenberg.common.js",
+		"!webpackGutenberg.dev.js",
+		"!webpackGutenberg.prod.js",
+		"!webpackNoGutenberg.dev.js",
+		"!webpackNoGutenberg.prod.js",
 		"!tests{,/**}",
 	])
 	.pipe(zip(`${info.name}.zip`))
 	.pipe(dest('bundled'));
 };
 
+export const compressIncludeSources = () => {
+	return src([
+	'**/*',
+	'!node_modules{,/**}',
+	'!bundled{,/**}',
+	'!package-lock.json',
+	'!composer.lock',
+	])
+	.pipe(zip(`${info.name}.sources.zip`))
+	.pipe(dest('bundled'));
+}
+
 export const watchForChanges = () => {
 	watch('src/scss/*.scss', styles);
 	watch('src/images/*.{jpg,jpeg,png,svg,gif}', series(images, reload));
-	watch(['src/js/*.js'], series(scripts, reload));
+	watch(['src/js/*.js'], series(webpackNoGutenbergDev, reload));
+	watch("**/*.php", reload);
+};
+
+export const watchGutenberg = () => {
+	watch(['blocks/*.js', 'blocks/**/*.js', 'blocks/**/*.scss', 'blocks/**/*.{jpg,jpeg,png,svg,gif}'], series(webpackGutenbergDev, reload));
+};
+
+export const watchAll = () => {
+	watch(['blocks/*.js', 'blocks/**/*.js', 'blocks/**/*.scss', 'blocks/**/*.{jpg,jpeg,png,svg,gif}'], series(webpackAllDev, reload));
+	watch(['src/js/*.js', 'src/scss/*.scss', 'src/images/*.{jpg,jpeg,png,svg,gif}'], series(webpackAllDev, reload));
 	watch("**/*.php", reload);
 };
 
@@ -270,8 +282,13 @@ export const  cleanInit = () => {
 };
 
 /* Run tasks in series to clean the Dev folder and start watching the files */
-export const dev = series(parallel(styles, images, scripts), serve, watchForChanges);
-export const build = series(bundleClean, parallel(styles, images, scripts), compress);
+export const dev = series(parallel(styles, images, webpackNoGutenbergDev), serve, watchForChanges);
+export const build = series(bundleClean, parallel(styles, images, webpackNoGutenbergProd), compress);
+export const devGutenberg = series(parallel(styles, images, webpackGutenbergDev, webpackNoGutenbergDev), serve, watchGutenberg);
+export const buildGutenberg = series(bundleClean, parallel(styles, images, webpackGutenbergProd, webpackNoGutenbergProd), compress);
+export const devAll = series(parallel(webpackAllDev), serve, watchAll);
+export const buildAll = series(bundleClean, parallel(webpackAllProd), compress);
+export const buildSources = series(bundleSourcesClean, compressIncludeSources);
 export const initPlugin = series(updateStrings, renameMain, renameTemplate, renamePartial, renamePOT, cleanInit );
 
 export default dev;

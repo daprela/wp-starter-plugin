@@ -11,8 +11,10 @@
   "textDomain": "dapre-wpsp",
   "main": "gulpfile.babel.js",
   "scripts": {
-    "devGutenberg": "cross-env webpack --config webpack.dev.js --open --watch",
-    "buildGutenberg": "cross-env webpack --config webpack.prod.js --open",
+    "devGutenberg": "gulp devGutenberg",
+    "buildGutenberg": "gulp buildGutenberg",
+    "devAll": "gulp devAll",
+    "buildAll": "gulp buildAll",
     "dev": "gulp",
     "build": "gulp build --prod"
   },
