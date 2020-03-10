@@ -3,7 +3,6 @@
 namespace dapre_wpsp\includes;
 
 use const dapre_wpsp\PLUGIN_DIR_PATH;
-use const dapre_wpsp\PLUGIN_NAME;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -139,12 +138,12 @@ class Loader {
 	 */
 	private function register_hooks() {
 
-		// enqueuing admin stlyes
+		// enqueuing admin styles
 		add_action( 'admin_enqueue_scripts', [ $this->admin, 'enqueue_styles' ] );
 		// enqueuing admin scripts
 		add_action( 'admin_enqueue_scripts', [ $this->admin, 'enqueue_scripts' ] );
 
-		// enqueuing frontend stlyes
+		// enqueuing frontend styles
 		add_action( 'wp_enqueue_scripts', [$this->plugin_public, 'enqueue_styles'] );
 		// enqueuing frontend scripts
 		add_action( 'wp_enqueue_scripts', [$this->plugin_public, 'enqueue_scripts'] );
