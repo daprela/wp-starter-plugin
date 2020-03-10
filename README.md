@@ -92,8 +92,6 @@ If you don't want to develop a Gutenberg block you can delete the `blocks` folde
 Webpack compiles all of the assets, provided that they are imported in the JS files.
 All assets not imported will not be part of the dependency graph and therefore Webpack will ignore them.
 The following commands are available:
-* `dev tasks`: runs Webpack in development mode. JS and CSS are mapped. The assets are 'watched' and recompiled if they change.
-* `build tasks`: runs Webpack in production mode. All assets are optimized and minimized.
-
-## Developing Gutenberg blocks in your plugin
+* `'dev' tasks`: Runs Webpack in development mode. JS and CSS are mapped. The assets are 'watched' and recompiled if they change.
+* `'build' tasks`: Runs Webpack in production mode. All assets are optimized and minimized.
 

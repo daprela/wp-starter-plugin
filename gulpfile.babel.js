@@ -4,19 +4,29 @@ Here's a quick rundown of our Gulp setup:
 ------------------
 TERMINAL COMMANDS:
 ------------------
-npm run build   - This will run the build process once then stop.
-                  The build process will compile and minify all assets and produce a installable zip file under the 'build' folder
-npm run dev     - This will run the build process, then will start watching asset files for changes.
-			      When a file is changed the associated build task will run again and live-reload will fire.
-gulp initPlugin - This command must be launched only once on the vanilla boilerplate.
-                  It will customize the plugin namespace and and plugin header based on the strings in package.json
-                  Once the command is executed you can start coding immediately. This command doesn't change the plugin's folder name.
+npm run build             - This will run the build process once then stop.
+                            The build process will compile and minify all assets and produce a installable zip file under the 'build' folder
+npm run dev               - This will run the build process, then will start watching asset files for changes.
+			                      When a file is changed the associated build task will run again and live-reload will fire.
+npm run buildGutenberg    - This will run the build process once then stop. This task will also build the Gutenberg blocks.
+                            The build process will compile and minify all assets and produce a installable zip file under the 'build' folder
+npm run devGutenberg      - This will run the build process, then will start watching asset files for changes. This task will also build the Gutenberg blocks.
+			                      When a file is changed the associated build task will run again and live-reload will fire.
+npm run BuildAll          - This will run the build process using Webpack for all of the assets.
+                            The build process will compile and minify all assets and produce a installable zip file under the 'build' folder
+npm run devAll            - This will run the build process using Webpack for all of the assets, then will start watching asset files for changes.
+			                      When a file is changed the associated build task will run again and live-reload will fire.
+gulp initPlugin           - This command must be launched only once on the vanilla boilerplate.
+                            It will customize the plugin namespace and and plugin header based on the strings in package.json
+                            Once the command is executed you can start coding immediately. This command doesn't change the plugin's folder name.
+gulp buildSources         - This will build a distributable zip containing all of the source files.
+
 
 ---------------------
 ASSET FILE STRUCTURE:
 ---------------------
-PLUGIN/assets/css/*.scss   ->   PLUGIN/assets/css/*.min.css
-PLUGIN/assets/js/*.js   ->   PLUGIN/assets/js/*.min.js
+PLUGIN/src/css/*.scss   ->   PLUGIN/assets/css/*.min.css
+PLUGIN/src/js/*.js   ->   PLUGIN/assets/js/*.min.js
 PLUGIN/src/images/*.{jpg,jpeg,png,svg,gif}   ->   PLUGIN/assets/images/*.{jpg,jpeg,png,svg,gif}
 
 
