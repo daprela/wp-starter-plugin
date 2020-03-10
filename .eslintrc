@@ -1,0 +1,21 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jquery": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["eslint-plugin-react", "eslint-plugin-react-hooks", "eslint-plugin-jsx-a11y", "eslint-plugin-import"],
+  "extends": ["airbnb", "airbnb/hooks"],
+  "rules": {
+    "linebreak-style": "off",
+    "max-len": "off"
+  }
+}

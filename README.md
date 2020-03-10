@@ -52,7 +52,7 @@ The two following commands are not part of the Gulp workflow and are intended as
 The Webpack workflow is provided to allow compiling the Gutenberg blocks. If you don't want to develop a Gutenberg block you can delete the `blocks` folder and the three webpack files, and ignore this chapter.
 
 Webpack compiles all of the assets in the `blocks` folder, provided that they are imported in the JS files.
-All assets not imported will not be part of the dependency chain and therefore Webpack will ignore them.
+All assets not imported will not be part of the dependency graph and therefore Webpack will ignore them.
 The following commands are available:
 * `npm run devGutenberg`: runs Webpack in development mode. JS and CSS are mapped. The assets are 'watched' and recompiled if they change.
 * `npm run buildGutenberg`: runs Webpack in production mode. All assets are optimized and minimized.
