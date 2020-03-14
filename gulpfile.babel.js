@@ -217,6 +217,9 @@ export const compress = () => src([
 
 export const compressIncludeSources = () => src([
   '**/*',
+  '.babelrc',
+  '.eslintrc',
+  '.gitignore',
   '!node_modules{,/**}',
   '!bundled{,/**}',
   '!package-lock.json',
@@ -267,7 +270,8 @@ export const renamePOT = () => src('languages/wp-starter-plugin.pot')
   .pipe(dest('languages/'));
 export const cleanInit = () => del(['wp-starter-plugin.php', 'templates/wp-starter-plugin-template.php', 'templates/partials/wp-starter-plugin-partial.php', 'languages/wp-starter-plugin.pot']);
 
-export const removeGutenStrings = () => src(['./**',
+export const removeGutenStrings = () => src([
+  './**',
   '!node_modules{,/**}',
   '!bundled{,/**}',
   '!src{,/**}',
