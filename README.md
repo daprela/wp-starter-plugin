@@ -73,7 +73,8 @@ Use this if you want to go fully Webpack. You'll have to import all your assets 
     * Creates the zip file of the plugin and saves it under the folder *bundled*
 
 * `gulp buildSources`: This command runs alone and create a distributable zip file that contains the whole plugin sources excluding the *node_modules* and *composer* directories.
-* `gulp initPlugin`: replaces the strings in the plugin headers and the namespace. The replacement strings must be specified in the file `package.json`. It also rename the main files according to the new plugin name. It can't rename the root folder of the plugin. Run this command first when you download the starter plugin and before you start any development. This task doesn't work anymore after the first run because the strings are changed. Update the search strings in the Gulp file if you need to run it again.
+* `gulp initPlugin`: Replaces the strings in the plugin headers and the namespace. The replacement strings must be specified in the file `package.json`. It also rename the main files according to the new plugin name. It can't rename the root folder of the plugin. Run this command first when you download the starter plugin and before you start any development. This task doesn't work anymore after the first run because the strings are changed. Update the search strings in the Gulp file if you need to run it again.
+* `gulp removeGutenberg`: If you don't need Gutenberg in your plugin, run this command and all the files and code for Gutenberg blocks will be removed.
 
 ### Using single gulp commands
 The following commands are already part of the bundled instructions `npm run dev` and `npm run build`. Here, they can be run alone in case of need.

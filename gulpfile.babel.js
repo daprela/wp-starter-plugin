@@ -20,6 +20,7 @@ gulp initPlugin           - This command must be launched only once on the vanil
                             It will customize the plugin namespace and and plugin header based on the strings in package.json
                             Once the command is executed you can start coding immediately. This command doesn't change the plugin's folder name.
 gulp buildSources         - This will build a distributable zip containing all of the source files.
+gulp removeGutenberg      - Remove all the Gutenberg code from the plugin sources. The webpack files and this file won't be touched.
 
 
 ---------------------
@@ -48,7 +49,7 @@ JS
 IMAGES
   - Compress images from src/images
   - Drop compressed images in assets/images
-*/
+ */
 
 /** ********************************************
  * Declarations
