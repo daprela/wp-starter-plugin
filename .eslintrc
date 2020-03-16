@@ -15,6 +15,8 @@
   "plugins": ["eslint-plugin-react", "eslint-plugin-react-hooks", "eslint-plugin-jsx-a11y", "eslint-plugin-import"],
   "extends": ["airbnb", "airbnb/hooks"],
   "rules": {
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
     "linebreak-style": "off",
     "max-len": "off"
   }
