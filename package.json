@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "pluginName": "WordPress Starter Plugin",
   "description": "A WordPress starter plugin.",
-  "rootNamespace": "dapre_wpsp",
+  "rootNamespace": "DapreWpsp",
   "author": "Giulio Daprela",
   "email": "giulio.daprela@gmail.com",
   "link": "https://giuliodaprela.com",
