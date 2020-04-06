@@ -1,6 +1,6 @@
 <?php
 
-namespace dapre_wpsp\includes;
+namespace DapreWpsp\Includes;
 
 /**
  * Define the utility functions that don't belong to any class.

@@ -9,12 +9,12 @@
  * @license GPL 2.0+
  */
 
-namespace dapre_wpsp\includes;
+namespace DapreWpsp\Includes;
 
-use function dapre_wpsp\get_asset_version;
-use const dapre_wpsp\PLUGIN_DIR_PATH;
-use const dapre_wpsp\PLUGIN_NAME;
-use const dapre_wpsp\PLUGIN_URL_PATH;
+use function DapreWpsp\get_asset_version;
+use const DapreWpsp\PLUGIN_DIR_PATH;
+use const DapreWpsp\PLUGIN_NAME;
+use const DapreWpsp\PLUGIN_URL_PATH;
 
 class Blocks {
 

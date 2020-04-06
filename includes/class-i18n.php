@@ -1,9 +1,9 @@
 <?php
 
-namespace dapre_wpsp\includes;
+namespace DapreWpsp\Includes;
 
-use const dapre_wpsp\PLUGIN_DIR_PATH;
-use const dapre_wpsp\PLUGIN_NAME;
+use const DapreWpsp\PLUGIN_DIR_PATH;
+use const DapreWpsp\PLUGIN_NAME;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {

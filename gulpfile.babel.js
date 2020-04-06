@@ -248,7 +248,7 @@ export const updateStrings = () => src([
   '!tests{,/**}',
   '!*.zip',
 ])
-  .pipe(replace('dapre_wpsp', info.rootNamespace))
+  .pipe(replace('DapreWpsp', info.rootNamespace))
   .pipe(replace('giulio.daprela@gmail.com', info.email))
   .pipe(replace('https://giuliodaprela.com', info.link))
   .pipe(replace('Giulio Daprela', info.author))

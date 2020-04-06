@@ -1,6 +1,6 @@
 <?php
 
-namespace dapre_wpsp\includes;
+namespace DapreWpsp\Includes;
 
 /**
  * Fired during plugin activation.

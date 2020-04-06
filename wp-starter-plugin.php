@@ -26,9 +26,9 @@
  * Domain Path:       /languages
  */
 
-namespace dapre_wpsp;
+namespace DapreWpsp;
 
-use dapre_wpsp\includes;
+use DapreWpsp\Includes;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
