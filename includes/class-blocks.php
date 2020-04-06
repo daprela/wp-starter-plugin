@@ -2,7 +2,7 @@
 /**
  * The class that enqueues and manages the Gutenberg blocks.
  *
- * @package dapre_wpsp
+ * @package DapreWpsp
  * @since   1.0.0
  * @author  Giulio Daprela
  * @link    https://giuliodaprela.com

@@ -8,8 +8,8 @@ namespace DapreWpsp\Includes;
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    dapre_wpsp
- * @subpackage dapre_wpsp/includes
+ * @package    DapreWpsp
+ * @subpackage DapreWpsp\Includes
  * @author     Giulio Daprela <giulio.daprela@gmail.com>
  */
 class Activator {

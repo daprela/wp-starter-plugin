@@ -18,8 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Defines two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @package    dapre_wpsp
- * @subpackage dapre_wpsp/includes
+ * @package    DapreWpsp
+ * @subpackage DapreWpsp\Includes
  * @author     Giulio Daprela <giulio.daprela@gmail.com>
  */
 class Plugin_Public {

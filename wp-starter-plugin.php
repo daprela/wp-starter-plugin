@@ -11,7 +11,7 @@
  * @link              https://giuliodaprela.com
  * @since             1.0.0
  * @author            Giulio Daprela
- * @package           dapre_wpsp
+ * @package           DapreWpsp
  *
  * @wordpress-plugin
  * Plugin Name:       WordPress Starter Plugin

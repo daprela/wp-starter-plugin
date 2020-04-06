@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    dapre_wpsp
- * @subpackage dapre_wpsp/includes
+ * @package    DapreWpsp
+ * @subpackage DapreWpsp\Includes
  * @author     Giulio Daprela <giulio.daprela@gmail.com>
  */
 class i18n {

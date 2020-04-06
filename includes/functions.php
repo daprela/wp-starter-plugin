@@ -9,6 +9,6 @@ namespace DapreWpsp\Includes;
  * @link       https://giuliodaprela.com
  * @since      1.0.0
  *
- * @package    dapre_wpsp
- * @subpackage dapre_wpsp/includes
+ * @package    DapreWpsp
+ * @subpackage DapreWpsp\Includes
  */
