@@ -3,6 +3,7 @@
 namespace DapreWpsp\Includes;
 
 use const DapreWpsp\PLUGIN_DIR_PATH;
+use const DapreWpsp\PLUGIN_LONG_NAME;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -57,7 +58,12 @@ class Loader {
 
 		$this->load_dependencies();
 		$this->set_locale();
-		$this->register_hooks();
+
+		if ( $this->is_php_version_ok() ) {
+			$this->register_hooks();
+		} else {
+			add_action( 'admin_notices', [ $this, 'required_php_version_print_notice' ] );
+		}
 	}
 
 	/**
@@ -84,7 +90,7 @@ class Loader {
 	 *
 	 * @return void
 	 */
-	private function autoload( $class ) {
+	private function autoload( string $class ) {
 
 		/** @var string $class_dir_path the path where the class file is found */
 		$class_dir_path = strtolower( str_replace( "_", "-", $class ) );
@@ -124,7 +130,6 @@ class Loader {
 	 * @return void
 	 */
 	private function set_locale() {
-
 		add_action( 'plugins_loaded', [ $this->plugin_i18n, 'load_plugin_textdomain' ] );
 	}
 
@@ -152,5 +157,29 @@ class Loader {
 		add_action( 'enqueue_block_editor_assets', [$this->blocks, 'editor_scripts'] );
 		// enqueuing Gutenberg frontend assets
 		add_action( 'enqueue_block_assets', [$this->blocks, 'frontend_scripts'] );
+	}
+
+	/**
+	 * Checks if the PHP version installed on the server is compatible with the plugin
+	 *
+	 * @return   boolean   True if the version is good
+	 */
+	public function is_php_version_ok(): bool {
+		if ( version_compare( PHP_VERSION, '7.0.0', '<' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Prints the notice in case the PHP version doesn't meet the minimum requirements
+	 */
+	public function required_php_version_print_notice() {
+		?>
+		<div class="notice notice-error is-dismissible">
+			<p>The plugin <?php echo PLUGIN_LONG_NAME ?> requires PHP Version 7.0.0 or greater.</p>
+		</div>
+		<?php
 	}
 }
