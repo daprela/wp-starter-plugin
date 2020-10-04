@@ -31,12 +31,10 @@ class i18n {
 	 * @return void
 	 */
 	public function load_plugin_textdomain() {
-
 		load_plugin_textdomain(
 			PLUGIN_NAME,
 			false,
 			PLUGIN_DIR_PATH . 'languages/'
 		);
-
 	}
 }

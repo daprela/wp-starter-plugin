@@ -49,7 +49,6 @@ class Plugin_Public {
 		 */
 		$version = get_asset_version( PLUGIN_DIR_PATH . 'assets/css/frontend-styles.min.css');
 		wp_enqueue_style( PLUGIN_NAME, PLUGIN_URL_PATH . 'assets/css/frontend-styles.min.css', array(), $version, 'all' );
-
 	}
 
 	/**
@@ -66,6 +65,5 @@ class Plugin_Public {
 		 */
 		$version = get_asset_version( PLUGIN_DIR_PATH . 'assets/js/frontend.min.js');
 		wp_enqueue_script( PLUGIN_NAME, PLUGIN_URL_PATH . 'assets/js/frontend.min.js', array( 'jquery' ), $version, false );
-
 	}
 }

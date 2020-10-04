@@ -54,6 +54,7 @@ function setup_constants() {
 	/** @var array $default_headers list of headers that we want to get in the format array('HeaderKey => 'Header Name')*/
 	$default_headers = [
 		'TextDomain' => 'Text Domain',
+		'LongName'   => 'Plugin Name',
 		'Version'    => 'Version',
 	];
 
@@ -62,6 +63,7 @@ function setup_constants() {
 
 	define( __NAMESPACE__ . '\PLUGIN_VERSION', $plugin_data['Version'] );
 	define( __NAMESPACE__ . '\PLUGIN_NAME', $plugin_data['TextDomain'] );
+	define( __NAMESPACE__ . '\PLUGIN_LONG_NAME', $plugin_data['LongName'] );
 	define( __NAMESPACE__ . '\PLUGIN_URL_PATH', plugins_url( '/', __FILE__ ) );
 	define( __NAMESPACE__ . '\PLUGIN_DIR_PATH', WP_PLUGIN_DIR . '/' . plugin_basename( dirname( __FILE__ ) ) . '/' );
 	define( __NAMESPACE__ . '\PLUGIN_SLUG', plugin_basename( dirname( __FILE__ ) ) );
@@ -112,7 +114,7 @@ require PLUGIN_DIR_PATH . 'includes/class-loader.php';
  *
  * @return int The asset timestamp
  */
-function get_asset_version( $asset_file ) {
+function get_asset_version( string $asset_file ): int {
 
 	/** @var int $version the timestamp of the asset file */
 	$asset_version = filemtime( $asset_file );

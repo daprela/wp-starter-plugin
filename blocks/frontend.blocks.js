@@ -1,9 +1,10 @@
 /**
  * Import internationalization
  */
-import "./i18n.js";
+// eslint-disable-next-line import/extensions
+import './i18n.js';
 
 /**
  * Import registerBlockType blocks
  */
-import "./demo/";
+import './demo';

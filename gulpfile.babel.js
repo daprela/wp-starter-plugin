@@ -22,14 +22,12 @@ gulp initPlugin           - This command must be launched only once on the vanil
 gulp buildSources         - This will build a distributable zip containing all of the source files.
 gulp removeGutenberg      - Remove all the Gutenberg code from the plugin sources. The webpack files and this file won't be touched.
 
-
 ---------------------
 ASSET FILE STRUCTURE:
 ---------------------
 PLUGIN/src/css/*.scss   ->   PLUGIN/assets/css/*.min.css
 PLUGIN/src/js/*.js   ->   PLUGIN/assets/js/*.min.js
 PLUGIN/src/images/*.{jpg,jpeg,png,svg,gif}   ->   PLUGIN/assets/images/*.{jpg,jpeg,png,svg,gif}
-
 
 -------------------------------------------------
 Running Gulp will do the following things for us:
@@ -87,7 +85,6 @@ import browserSync from 'browser-sync';
 import zip from 'gulp-zip';
 import replace from 'gulp-replace';
 import info from './package.json';
-
 
 import wpGutenbergDev from './webpackGutenberg.dev';
 import wpGutenbergProd from './webpackGutenberg.prod';
